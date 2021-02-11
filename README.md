@@ -1,5 +1,21 @@
 # Getting Started with Create React App
+    
+    There will be an app.js 
+        - This will contain the router that connects us to the Search page and the Home page
+    There will be Several components, but three Pages: 
+        1.) A Header component that will be displayed on all three 
+        2.) A Home page <pass header prop here>
+        3.) A Search page <pass header prop here>
+                - ALL STATE WILL BE MANAGED HERE!!!!!
+        4.) Image/Pokemon list component
+                -Will take in a list of filtered/sorted pokemon
+        5.) PokeItem component (this will be creating the physical html package and rendering that list "array" on the page)
+            HTML element should contain: 
+             -<img tag>
+             - <p>Name<p>
+             - <p>Anything that I will be sorting by<p>
 
+<!-- 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
@@ -67,4 +83,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 ### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify) -->
