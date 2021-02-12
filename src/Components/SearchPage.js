@@ -64,7 +64,7 @@ class SearchPage extends React.Component {
                     <SearchBar
                         currentValue={this.state.pokemon}
                         handleChange={this.handleNameChange}
-                        options={['bulbasaur','ivysaur','charmander','charmeleon','charizard', 'squirtle','wartortle','blastoise','caterpie','metapd', 'beedrill','weedle','kakuna','pidgey']}
+                        options={['bulbasaur','ivysaur','charmander','charmeleon','charizard', 'squirtle','wartortle','blastoise','caterpie','metapod', 'beedrill','weedle','kakuna','pidgey']}
                     />
                     Sort Pokemon By Type:
                     <SortPoke
