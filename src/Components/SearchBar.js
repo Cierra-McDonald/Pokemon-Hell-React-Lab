@@ -1,19 +1,22 @@
 import React from 'react'
+import pokemonData from '../data'
+import PokemonItem from './PokemonItem'
+import SearchPage from './SearchPage'
 
 class SearchBar extends React.Component {
-    render() {
+    
+    render () {
         return (
             <div className="search-bar">
-                <select
-                value={this.props.currentValue}
-                onChange={this.props.handleChange}>
-                    {this.props.options.map(pokeItem => <option value={pokeItem}> {pokeItem}</option>)}
-                Search Pokemon Name: <br/>
-                {/* <input></input><br/> */}
-                <button>Search!</button>
-                </select>
+                <input
+                    placeholder={"Find a pokemon"}
+                    onChange={this.props.handleChange}
+                />     
             </div>
         )
-    }
+    
+    };
 }
-export default SearchBar
+export default SearchBar;
+
+
