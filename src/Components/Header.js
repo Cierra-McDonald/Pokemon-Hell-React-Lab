@@ -14,7 +14,7 @@ export default withRouter(class Header extends Component {
                         Search
                     </NavLink>
                 }
-                <h1 className="poke-words"> Welcome to Pokemon Hell</h1>
+                <h1 className="poke-words"> Welcome to Pokemon Sorts and Search</h1>
             </div>
         )
     }
