@@ -3,7 +3,7 @@ import React from 'react';
 
 class PokemonItem extends React.Component {
     render() {
-        return (
+        return (//Html elements that are rendered to the page in form of PokeCards
             <div className="poke-list" >
                 <div className="images">{this.props.pokemonProp.pokemon}</div>
                 <img className="images" src={this.props.pokemonProp.url_image} alt="" height="250"/>

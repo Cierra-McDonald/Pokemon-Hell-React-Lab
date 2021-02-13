@@ -1,7 +1,5 @@
 import React from 'react'
-import pokemonData from '../data'
-import PokemonItem from './PokemonItem'
-import SearchPage from './SearchPage'
+
 
 class SearchBar extends React.Component {
     

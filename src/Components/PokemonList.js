@@ -1,7 +1,8 @@
 import React from 'react'
 import PokemonItem from './PokemonItem';
 
-class PokemonList extends React.Component {
+class PokemonList extends React.Component {//getting filtered pokemon array from filteredPokemons prop, created in SearchPage... map function will create a 
+    //single pokemon object by going into PokemonItem component and grabbing the html elements...
     render() {
         return (
             <ul className="pokemon-ul">
