@@ -7,81 +7,110 @@ import PokemonList from './PokemonList.js';
 
 class SearchPage extends React.Component {
     state = { 
-        pokemon: '',
-        type_1: '',
-        attack: '',
+        userInput: '',
+        pokemonList: pokemonData,
+        sortOrder: 'Ascending Order',
+        category: 'pokemon'
 
+    }
+
+    componentDidMount() {//is invoked when user gets to the Search page, by clicking the Search link on Home, this is setting the initial state of the page that will display the asceding sort order by pokemon name
+        this.setState({
+            pokemonList: this.sortOrder(this.state.sortOrder, this.state.category)
+        }
+        );
     }
     //here I will be changing state that will then UPDATE THE DOM AND RENDER COOL THINGS TO THE PAGE WHEN THE USER
     //CLICKS THESE THINGS
-    handleNameChange = (e) => {
-        this.setState({
-            pokemon: e.target.value
-        })
+    handleInputChange = (e) => {//invoked when the user types in the search bar, and invokes the onChange even listener in SearchBar Component, since JS words asynchrously, we want the user to be able to type in what they are searching for AND see the filters right after...'},' acts like the await and async notation so the filtered pokemon 'new array of pokemon' has time to be created and sent back, this occurs because filterPokemon is being called here!
+         this.setState({
+            userInput: e.target.value
+        },
+         this.setState({
+             pokemonList: this.filterPokemons(e.target.value)
+         })
+        )
     }
-    handleTypeChange = (e) => { 
-        this.setState({ 
-            type_1: e.target.value
-        })
+    handleSortOrder = (e) => {//invoked when the user chooses Ascending or Descending in the drop down, and invoking the onChange event listener in SortPoke Component, takes userInput as a parameter and uses the async/await notation to create the sorted list and sends it back to here...This will be a mutated Array
+        this.setState({
+            sortOrder: e.target.value
+        },
+        console.log(this.sortOrder(e.target.value, this.state.category))
+        );
     } 
    
-    handleAttackChange = (e) => { 
+    handleSortByCategory = (e) => { //invoked when the user chooses type, ability, shape or pokename name in the drop down, and invoking the onChange event listener in SortPoke Component, takes userInput as a parameter and uses the async/await notation to create the sorted list and sends it back to here...This will be a mutated Array
+        console.log(e.target.value)
         this.setState({ 
-            attack: Number(e.target.value)
-        })
+            category: e.target.value
+        },
+        console.log(this.sortOrder(this.state.sortOrder, e.target.value))
+        );
     } 
 
-    render() {
-        // console.log(this.state)
-        // this.state.type_1.sort((a,b) => 
-        //     a[this.state.type_1].localeCompare(b[this.state.type_1])
-        //     );
-
-        // const sortedPokemon = pokemonData.sort((a,b) => b.pokemon - a.pokemon)
-        const filteredPokemons = pokemonData.filter((pokemonSingleData) => {
-            if (this.state.pokemon) {
-                if (pokemonSingleData.pokemon === this.state.pokemon) return true;
-            }
-            
-            if (!this.state.type_1 && !this.state.attack) return true;
-
-            if (this.state.type_1 && !this.state.attack) { 
-                if (pokemonSingleData.type_1 === this.state.type_1) return true;
-            }
-            if (this.state.attack && !this.state.type_1) {
-                if (pokemonSingleData.attack === this.state.attack) return true; 
-            }
-            if (this.state.type_1 && this.state.attack) { 
-                if (pokemonSingleData.type_1 === this.state.type_1 && pokemonSingleData.attack === this.state.attack) return true;
-            }
-
-            return false;
+    filterPokemons = (userInput) => {//invoked when the user is typing in the search bar, the result will be a pokemon object(s) from the pokemonData.js, the item will be an iteration each time the user is putting in more letters into the search bar...used a .substring method to return a part of the string between the start and stop index...compared userInput(parameter) to the Object.name attribute...result returned is an Array of filtered pokemon objects 
+        const result = pokemonData.filter(item => {
+            let userLength = userInput.length;
+            let name = item['pokemon'];
+            name = name.substring(0, userLength)
+            if (userInput === name) return true;
+            else return false;
         })
+        return result;
+    } 
+
+
+    sortOrder = (selection, category) => { //invoked when user chooses a sortOrder and sorting category in the dropdown this function is going to compare the Descending/Ascending order in the dropdown (user's choice) to the options in <SortPoke> Component and firing the onChange eventListener in SortPoke Component (onChange), THEN it's going to sort the pokenames based on the choice that the user chose...ascending will be from A-Z, descending will be from Z-A...the default is Ascending that is setState in handleSortOrder, function takes in two parameters selection and category...selection = userInput from dropdown, category is an object attribute defined in state
+        console.log(selection)
+        let sortedPokeList = this.state.pokemonList;
+        if (selection === 'Descending Order'){
+            sortedPokeList =  this.state.pokemonList.sort(function(a,b) {
+                if (a[category] > b[category]){
+                    return -1;
+                } if (a[category] < b[category]){
+                    return 0;
+                }
+            })
+        } else {
+            sortedPokeList =  this.state.pokemonList.sort(function(a,b) {
+                if (a[category] < b[category]){
+                    return -1;
+                } if (a[category] > b[category]){
+                    return 0;
+                }
+            })
+        }
+        return sortedPokeList;
+    }
+
+    render() {
         return (
             <div>
                 <div className="search-container">
                     Search Pokemon Name:
                     <SearchBar
-                        currentValue={this.state.pokemon}
-                        handleChange={this.handleNameChange}
-                        options={['bulbasaur','ivysaur','charmander','charmeleon','charizard', 'squirtle','wartortle','blastoise','caterpie','metapod', 'beedrill','weedle','kakuna','pidgey']}
-                    />
-                    Sort Pokemon By Type:
+                        currentValue={this.state.userInput}
+                        handleChange={this.handleInputChange}
+                        />
+                    Sort Pokemon By Ascending/Descending:
                     <SortPoke
-                        currentValue={this.state.type_1}
-                        handleChange={this.handleTypeChange}
-                        options={['fire','grass','water','bug','normal']}
-                    />
-                    Sort Pokemon By Attack:
+                        currentValue={this.state.sortOrder}
+                        handleChange={this.handleSortOrder}
+                        options={['Ascending Order', 'Descending Order']}
+                        />
+                    Sort Pokemon By Category:
                     <SortPoke
-                        currentValue={this.state.attack}
-                        handleChange={this.handleAttackChange}
-                        options={[49, 62, 52, 64, 84, 48, 63, 83, 30, 20, 90, 35, 25, 45]}
-                    />
+                        currentValue={this.state.category}
+                        handleChange={this.handleSortByCategory}
+                        options={['pokemon','type_1', 'shape', 'ability_1']}
+                        />
                 </div>
-                < PokemonList filteredPokemons = {filteredPokemons}/>
+                < PokemonList filteredPokemons= {this.state.pokemonList}/>
             </div>
         )
     }
 }
 export default SearchPage;
+
+
+
