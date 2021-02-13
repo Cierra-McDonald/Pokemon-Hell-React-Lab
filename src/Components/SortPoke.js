@@ -9,9 +9,7 @@ class SortPoke extends React.Component {
                     value={this.props.currentValue}
                     onChange={this.props.handleChange}
                     > 
-                    {
-                        this.props.options.map(pokeItem => <option value={pokeItem}> {pokeItem}</option>)
-                    }
+                    {this.props.options.map(pokeItem => <option value={pokeItem}> {pokeItem}</option>)}
                 </select>
             </div>
         )

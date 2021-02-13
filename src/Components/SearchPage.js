@@ -8,19 +8,17 @@ import PokemonList from './PokemonList.js';
 class SearchPage extends React.Component {
     state = { 
         userInput: '',
-        type_1: '',
-        attack: '',
-        pokemonList: [],
+        pokemonList: pokemonData,
+        sortOrder: 'Ascending Order',
+        category: 'pokemon'
 
     }
 
     componentDidMount() { 
         this.setState({
-            pokemonList: pokemonData
-        },
-        function() { console.log( this.state.pokemonList)} 
+            pokemonList: this.sortOrder(this.state.sortOrder, this.state.category)
+        }
         );
-        console.log(this.state.pokemonList)
     }
     //here I will be changing state that will then UPDATE THE DOM AND RENDER COOL THINGS TO THE PAGE WHEN THE USER
     //CLICKS THESE THINGS
@@ -29,23 +27,23 @@ class SearchPage extends React.Component {
             userInput: e.target.value
         },
          this.setState({
-
              pokemonList: this.filterPokemons(e.target.value)
          })
-         
         )
-        console.log(this.state.userInput)
     }
-    handleTypeChange = (e) => { 
-        this.setState({ 
-            type_1: e.target.value
-        })
+    handleSortOrder = (e) => { 
+        this.setState({
+            sortOrder: e.target.value
+        },
+        this.sortOrder(e.target.value, this.state.category));
     } 
    
-    handleAttackChange = (e) => { 
+    handleSortByCategory = (e) => { 
+        console.log(e.target.value)
         this.setState({ 
-            attack: Number(e.target.value)
-        })
+            category: e.target.value
+        },
+        this.sortOrder(this.state.sortOrder, e.target.value));
     } 
     filterPokemons = (userInput) => {
         const result = pokemonData.filter(item => {
@@ -58,16 +56,33 @@ class SearchPage extends React.Component {
         return result;
     } 
 
-    render() {
-        // console.log(this.state)
-        // this.state.type_1.sort((a,b) => 
-        //     a[this.state.type_1].localeCompare(b[this.state.type_1])
-        //     );
 
-        // const sortedPokemon = pokemonData.sort((a,b) => b.pokemon - a.pokemon)
-        // const filteredPokemons = pokemonList.filter((pokemonSingleData) => {
-            
-        // })
+    sortOrder = (selection, category) => { //this function is going to compare the Descending/Ascending order in the dropdown (user's choice) to the options in <SortPoke> Component and firing the onChange eventListener in SortPoke Component (onChange), THEN it's going to sort the pokenames based on the choice...ascending will be from A-Z, descending will be from Z-A...the default is Ascending that is setState in handleSortOrder
+        console.log(selection)
+        let sortedPokeList = this.state.pokemonList;
+        if (selection === 'Descending Order'){
+            sortedPokeList =  this.state.pokemonList.sort(function(a,b) {
+                if (a[category] > b[category]){
+                    return -1;
+                } if (a[category] < b[category]){
+                    return 0;
+                }
+            })
+        } else {
+            sortedPokeList =  this.state.pokemonList.sort(function(a,b) {
+                console.log('in hereee')
+                if (a[category] < b[category]){
+                    return -1;
+                } if (a[category] > b[category]){
+                    return 0;
+                }
+            })
+        }
+        return sortedPokeList;
+    }
+
+    render() {
+       
         return (
             <div>
                 <div className="search-container">
@@ -76,17 +91,17 @@ class SearchPage extends React.Component {
                         currentValue={this.state.userInput}
                         handleChange={this.handleInputChange}
                         />
-                    Sort Pokemon By Type:
+                    Sort Pokemon By Ascending/Descending:
                     <SortPoke
-                        currentValue={this.state.type_1}
-                        handleChange={this.handleTypeChange}
-                        options={['fire','grass','water','bug','normal']}
+                        currentValue={this.state.sortOrder}
+                        handleChange={this.handleSortOrder}
+                        options={['Ascending Order', 'Descending Order']}
                         />
-                    Sort Pokemon By Attack:
+                    Sort Pokemon By Category:
                     <SortPoke
-                        currentValue={this.state.attack}
-                        handleChange={this.handleAttackChange}
-                        options={[49, 62, 52, 64, 84, 48, 63, 83, 30, 20, 90, 35, 25, 45]}
+                        currentValue={this.state.category}
+                        handleChange={this.handleSortByCategory}
+                        options={['pokemon','type_1', 'shape', 'ability_1']}
                         />
                 </div>
                 < PokemonList filteredPokemons= {this.state.pokemonList}/>
@@ -98,16 +113,3 @@ export default SearchPage;
 
 
 
-// if (!this.state.type_1 && !this.state.attack) return true;
-
-// if (this.state.type_1 && !this.state.attack) { 
-//     if (pokemonSingleData.type_1 === this.state.type_1) return true;
-// }
-// if (this.state.attack && !this.state.type_1) {
-//     if (pokemonSingleData.attack === this.state.attack) return true; 
-// }
-// if (this.state.type_1 && this.state.attack) { 
-//     if (pokemonSingleData.type_1 === this.state.type_1 && pokemonSingleData.attack === this.state.attack) return true;
-// }
-
-// return false;

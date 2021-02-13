@@ -15,7 +15,7 @@ export const pokemonData = [
        'special_attack':65,
        'special_defense':65,
        'speed':45,
-       'ablity_1':'overgrow',
+       'ability_1':'overgrow',
        'ability_2':'NA',
        'ability_hidden':'chlorophyll',
        'color_1':'#78C850',
