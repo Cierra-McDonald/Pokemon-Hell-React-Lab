@@ -43,6 +43,11 @@
   text-justify: center;
   display: block; 
   
+  
+}
+
+.poke-link { 
+  margin-left: 20px;
 }
 
 .poke-words { 

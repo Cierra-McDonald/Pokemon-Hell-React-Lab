@@ -5,13 +5,19 @@ export default withRouter(class Header extends Component {
     render() {
         return (
             <div className="poke-header">
-                <NavLink exact activeClassName="selected" to="/">
+                <NavLink className="poke-link" exact activeClassName="selected" to="/">
                     Home
                 </NavLink>
                 {
                 this.props.location.pathname !== '/search'
-                    && <NavLink exact activeClassName="selected" to="/search">
+                    && <NavLink className="poke-link" exact activeClassName="selected" to="/search">
                         Search
+                    </NavLink>
+                }
+                { 
+                this.props.location.pathname !== '/details/pokebase'
+                    && <NavLink className="poke-link" exact activeClassName="selected" to="/details/pokebase">
+                        Pokemon Details
                     </NavLink>
                 }
                 <h1 className="poke-words"> Welcome to Pokemon Hell</h1>
