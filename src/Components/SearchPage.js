@@ -4,22 +4,37 @@ import SearchBar from './SearchBar.js';
 import SortPoke from './SortPoke.js';
 import '../App.css';
 import PokemonList from './PokemonList.js';
+import request from 'superagent'
 
 class SearchPage extends React.Component {
     state = { 
         userInput: '',
         pokemonList: pokemonData,
+        // async () => {await request.get('https://pokedex-alchemy.herokuapp.com/api/pokedex?perPage=801').body.results}, //set this state to an empty array, not the url yet...
         sortOrder: 'Ascending Order',
-        category: 'pokemon'
+        category: 'pokemon',
+        loading: true
 
     }
 
-    componentDidMount() {//is invoked when user gets to the Search page, by clicking the Search link on Home, this is setting the initial state of the page that will display the asceding sort order by pokemon name
+
+    componentDidMount = async () => {//is invoked when user gets to the Search page, by clicking the Search link on Home, this is setting the initial state of the page that will display the asceding sort order by pokemon name
+        const data = await request.get('https://pokedex-alchemy.herokuapp.com/api/pokedex?perPage=801')
+        console.log(data.body.results);
+        this.setState({
+            pokemonList : data.body.results,
+            pokemonData : data.body.results,
+            loading: false
+        }, //set the state to pokemonList : data.body.results     
         this.setState({
             pokemonList: this.sortOrder(this.state.sortOrder, this.state.category)
-        }
-        );
-    }
+        })
+        )
+        //just put the link here...not the body.results...wait till you are setting the state
+          
+        
+    };  
+
     //here I will be changing state that will then UPDATE THE DOM AND RENDER COOL THINGS TO THE PAGE WHEN THE USER
     //CLICKS THESE THINGS
     handleInputChange = (e) => {//invoked when the user types in the search bar, and invokes the onChange even listener in SearchBar Component, since JS words asynchrously, we want the user to be able to type in what they are searching for AND see the filters right after...'},' acts like the await and async notation so the filtered pokemon 'new array of pokemon' has time to be created and sent back, this occurs because filterPokemon is being called here!
@@ -105,7 +120,9 @@ class SearchPage extends React.Component {
                         options={['pokemon','type_1', 'shape', 'ability_1']}
                         />
                 </div>
-                < PokemonList filteredPokemons= {this.state.pokemonList}/>
+                < PokemonList 
+                    loading={this.state.loading}
+                    filteredPokemons= {this.state.pokemonList}/>
             </div>
         )
     }

@@ -115,3 +115,24 @@
 
 
 }
+
+.poke-ball-div { 
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  /* background-color: teal; */
+  /* text-align: center; */
+  padding-left:25%;
+  align-items: flex-end;
+}
+.poke-ball-img { 
+  /* background-color: yellow; */
+
+  align-items: center;
+}
+
+.loading-text{ 
+  text-align:center;
+  width: 150px;
+  font-size: medium;
+}
