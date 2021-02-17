@@ -1,5 +1,4 @@
 import React from 'react'
-import pokemonData from '../data.js'
 import SearchBar from './SearchBar.js';
 import SortPoke from './SortPoke.js';
 import '../App.css';
