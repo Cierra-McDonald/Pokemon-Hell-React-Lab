@@ -79,9 +79,10 @@
   padding-top: 20px;
   padding-bottom: 20px;
   margin-top: 20px;
-  margin-left: 20px;
+  margin-left: 7%; 
   text-align: center;
   border-radius: 3em;
+  align-items: center;
 
 }
 
@@ -93,11 +94,18 @@
 
 .search-container { 
   border-right: black 2px solid;
-  border-bottom: black 2px solid ;
+  border-bottom: black 1px solid ;
+  border-top: lawngreen 20px solid;
   padding-bottom: 20px;
   padding-top: 10px;
-  width: 30%;
+  width: 100%;
   background-color: #DE3C4B;
+  text-align: center;
+}
+.page-buttons { 
+  padding-left: 10px;
+  margin-left: 10px;
+  margin: 10px;
 }
 
 .poke-list { 
@@ -151,4 +159,36 @@
   text-align:center;
   width: 150px;
   font-size: medium;
+}
+
+.detail-page-poke { 
+  border: 3px solid #FBF5F3;
+  background-color: black;
+  box-shadow: 2px 2px #2b2c30;
+  border-radius: 3em;
+  width: 350px;
+  height: 650px;
+  align-items: center;
+  padding-left: 20px;
+  margin-left: 40%;
+  
+}
+
+.detail-container { 
+  align-content: center;
+  margin-top: 7px;
+  
+}
+.details { 
+  align-items: center;
+  text-align: center;
+  color: #E28413;
+  font-weight: bold;
+  text-transform:capitalize;
+  align-self: center;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+
+  
+  
 }

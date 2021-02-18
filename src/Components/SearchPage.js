@@ -12,10 +12,11 @@ class SearchPage extends React.Component {
         pokemonList: [],
         sortOrder: 'asc',
         category: 'pokemon',
-        loading: true
+        loading: true,
+        currentPage: 1,
+        totalPokemon: 0
 
     }
-
 
     componentDidMount = async () => {//is invoked when user gets to the Search page, by clicking the Search link on Home, this is setting the initial state of the page that will display the asceding sort order by pokemon name
        
@@ -24,7 +25,8 @@ class SearchPage extends React.Component {
        
         this.setState({
             pokemonList : data,
-            loading: false
+            loading: false,
+            totalPokemon: data
         })
         
     };  
@@ -74,7 +76,7 @@ class SearchPage extends React.Component {
         this.setState({
             loading: true
         })
-        const data = await request.get(`https://pokedex-alchemy.herokuapp.com/api/pokedex?perPage=801&pokemon=${userInput}`);
+        const data = await request.get(`https://pokedex-alchemy.herokuapp.com/api/pokedex?perPage=50&pokemon=${userInput}`);
 
         return data.body.results;
     } 
@@ -82,12 +84,50 @@ class SearchPage extends React.Component {
         this.setState({ 
             loading: true
         })
-        const data = await request.get(`https://pokedex-alchemy.herokuapp.com/api/pokedex?perPage=801&sort=${category}&direction=${selection}`);
+        const data = await request.get(`https://pokedex-alchemy.herokuapp.com/api/pokedex?sort=${category}&direction=${selection}&page=${this.state.currentPage}&perPage=50`)
+            
         
+        console.log(data.body.results)
         return data.body.results;
     }
 
+    handleNextPage = async () => {//invoked when user clicks next page button 
+        console.log('In the button')
+        
+        await this.setState({ 
+            currentPage: this.state.currentPage + 1
+        })
+
+        console.log(this.state.currentPage)
+
+        const data = await request.get(`https://pokedex-alchemy.herokuapp.com/api/pokedex?page=${this.state.currentPage}&perPage=50`)
+        
+        await this.setState({ 
+            pokemonList: data.body.results,
+            totalPokemon: data.body.count
+
+        })
+        
+    }
+
+    handlePreviousPage =  async () => {//invoked when user clicks previous page button 
+        console.log('YOur doing great!')
+        
+        await this.setState({ 
+            currentPage: this.state.currentPage - 1
+        })
+
+        const data = await request.get(`https://pokedex-alchemy.herokuapp.com/api/pokedex?page=${this.state.currentPage}&perPage=50`)
+
+        await this.setState({ 
+            pokemonList: data.body.results
+        })
+
+
+    }
+
     render() {
+        const lastPage = Math.ceil(this.state.totalPokemon / 50)
         return (
             <div>
                 <div className="search-container">
@@ -108,6 +148,17 @@ class SearchPage extends React.Component {
                         handleChange={this.handleSortByCategory}
                         options={['pokemon','type_1', 'shape', 'ability_1']}
                         />
+
+                    <button 
+                    disabled={this.state.currentPage === 1}
+                    onClick={this.handlePreviousPage}className="page-buttons">Previous Page</button>
+
+                    <button
+                    disabled={this.state.currentPage === lastPage}
+                    onClick={this.handleNextPage}
+                    className="page-buttons">Next Page</button><br/> 
+
+                    <span>Page:{this.state.currentPage} out of 17</span> 
                 </div>
                 
                 < PokemonList 
