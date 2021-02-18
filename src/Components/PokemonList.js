@@ -2,6 +2,7 @@ import React from 'react'
 import PokemonItem from './PokemonItem';
 import RollingPokeBall  from '../RollingPokeBall.gif'
 
+
 class PokemonList extends React.Component {//getting filtered pokemon array from filteredPokemons prop, created in SearchPage... map function will create a 
     //single pokemon object by going into PokemonItem component and grabbing the html elements...
     render() {

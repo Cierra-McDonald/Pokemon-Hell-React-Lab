@@ -5,6 +5,7 @@ import '../App.css';
 import PokemonList from './PokemonList.js';
 import request from 'superagent'
 
+
 class SearchPage extends React.Component {
     state = { 
         userInput: '',
@@ -69,7 +70,6 @@ class SearchPage extends React.Component {
         }
         );
     } 
-
     filterPokemons = async (userInput) => {//invoked when the user is typing in the search bar, the result will be a pokemon object(s) from the pokemonData.js, the item will be an iteration each time the user is putting in more letters into the search bar...used a .substring method to return a part of the string between the start and stop index...compared userInput(parameter) to the Object.name attribute...result returned is an Array of filtered pokemon objects 
         this.setState({
             loading: true
@@ -78,8 +78,6 @@ class SearchPage extends React.Component {
 
         return data.body.results;
     } 
-
-
     sortOrder = async (selection, category) => { //invoked when user chooses a sortOrder and sorting category in the dropdown this function is going to compare the Descending/Ascending order in the dropdown (user's choice) to the options in <SortPoke> Component and firing the onChange eventListener in SortPoke Component (onChange), THEN it's going to sort the pokenames based on the choice that the user chose...ascending will be from A-Z, descending will be from Z-A...the default is Ascending that is setState in handleSortOrder, function takes in two parameters selection and category...selection = userInput from dropdown, category is an object attribute defined in state
         this.setState({ 
             loading: true
@@ -111,9 +109,10 @@ class SearchPage extends React.Component {
                         options={['pokemon','type_1', 'shape', 'ability_1']}
                         />
                 </div>
+                
                 < PokemonList 
                     loading={this.state.loading}
-                    filteredPokemons= {this.state.pokemonList}/>
+                    filteredPokemons= {this.state.pokemonList}/>    
             </div>
         )
     }

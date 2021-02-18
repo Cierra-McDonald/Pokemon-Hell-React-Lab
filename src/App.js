@@ -28,7 +28,7 @@ export default class App extends Component {
                             render={(routerProps) => <SearchPage {...routerProps} />} 
                         />
                          <Route 
-                            path="/details/:pokebase" 
+                            path="/search/:pokemonName" 
                             exact
                             render={(routerProps) => <DetailsPage {...routerProps} />} 
                         />
