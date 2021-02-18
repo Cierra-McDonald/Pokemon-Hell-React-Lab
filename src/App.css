@@ -1,6 +1,23 @@
 .App {
   text-align: center;
+  /* text-align: center; */
+  background: linear-gradient(-30deg, #300505, #9b2c0b, #c1350b, #a01818, #171817);
+  background-blend-mode: soft-light;
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
 }
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 
 .App-logo {
   height: 40vmin;
@@ -37,7 +54,7 @@
   }
 }
 .poke-header{ 
-  background-color: #FBF5F3;
+  /* background-color:  #E28413; */
   height: 100px;
   text-align: center;
   text-justify: center;
@@ -63,9 +80,10 @@
 .poke-words { 
   color: #000022;
   font-weight: bold;
-  font-size: 28px;
+  font-size: 32px;
   font-style: oblique;
   font-family: cursive;
+  margin-bottom: 10px;
 }
 .sort-poke {
   color: white;
@@ -94,13 +112,12 @@
 
 .search-container { 
   border-right: black 2px solid;
-  border-bottom: black 1px solid ;
-  border-top: lawngreen 20px solid;
+  border-top: black 20px solid;
   padding-bottom: 20px;
   padding-top: 10px;
   width: 100%;
-  background-color: #DE3C4B;
   text-align: center;
+  /* background-color: #DE3C4B; */
 }
 .page-buttons { 
   padding-left: 10px;
@@ -109,6 +126,7 @@
 }
 
 .poke-list { 
+  overflow-y:auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -136,7 +154,7 @@
   align-items: center;
   text-align: center;
   justify-content: center;
-
+  /* overflow-y:auto; */
 
 }
 
@@ -188,7 +206,22 @@
   align-self: center;
   padding-bottom: 5px;
   margin-bottom: 5px;
+}
 
+.pickachu{ 
   
-  
+  align-content: center;
+}
+.pikachu-pic{ 
+  align-items: center;
+  /* margin-left: 37%; */
+  margin-top: 8%;
+  position: relative;
+  animation-name: example;
+  animation-duration: 3s;  
+  animation-fill-mode: forwards;
+}
+@keyframes example{
+  from {left: 0%;}
+  to {left: 37%; }
 }
