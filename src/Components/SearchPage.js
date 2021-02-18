@@ -5,16 +5,18 @@ import '../App.css';
 import PokemonList from './PokemonList.js';
 import request from 'superagent'
 
+
 class SearchPage extends React.Component {
     state = { 
         userInput: '',
         pokemonList: [],
         sortOrder: 'asc',
         category: 'pokemon',
-        loading: true
+        loading: true,
+        currentPage: 1,
+        totalPokemon: 0
 
     }
-
 
     componentDidMount = async () => {//is invoked when user gets to the Search page, by clicking the Search link on Home, this is setting the initial state of the page that will display the asceding sort order by pokemon name
        
@@ -23,7 +25,8 @@ class SearchPage extends React.Component {
        
         this.setState({
             pokemonList : data,
-            loading: false
+            loading: false,
+            totalPokemon: data
         })
         
     };  
@@ -69,27 +72,62 @@ class SearchPage extends React.Component {
         }
         );
     } 
-
     filterPokemons = async (userInput) => {//invoked when the user is typing in the search bar, the result will be a pokemon object(s) from the pokemonData.js, the item will be an iteration each time the user is putting in more letters into the search bar...used a .substring method to return a part of the string between the start and stop index...compared userInput(parameter) to the Object.name attribute...result returned is an Array of filtered pokemon objects 
         this.setState({
             loading: true
         })
-        const data = await request.get(`https://pokedex-alchemy.herokuapp.com/api/pokedex?perPage=801&pokemon=${userInput}`);
+        const data = await request.get(`https://pokedex-alchemy.herokuapp.com/api/pokedex?perPage=50&pokemon=${userInput}`);
 
         return data.body.results;
     } 
-
-
     sortOrder = async (selection, category) => { //invoked when user chooses a sortOrder and sorting category in the dropdown this function is going to compare the Descending/Ascending order in the dropdown (user's choice) to the options in <SortPoke> Component and firing the onChange eventListener in SortPoke Component (onChange), THEN it's going to sort the pokenames based on the choice that the user chose...ascending will be from A-Z, descending will be from Z-A...the default is Ascending that is setState in handleSortOrder, function takes in two parameters selection and category...selection = userInput from dropdown, category is an object attribute defined in state
         this.setState({ 
             loading: true
         })
-        const data = await request.get(`https://pokedex-alchemy.herokuapp.com/api/pokedex?perPage=801&sort=${category}&direction=${selection}`);
+        const data = await request.get(`https://pokedex-alchemy.herokuapp.com/api/pokedex?sort=${category}&direction=${selection}&page=${this.state.currentPage}&perPage=50`)
+            
         
+        console.log(data.body.results)
         return data.body.results;
     }
 
+    handleNextPage = async () => {//invoked when user clicks next page button 
+        console.log('In the button')
+        
+        await this.setState({ 
+            currentPage: this.state.currentPage + 1
+        })
+
+        console.log(this.state.currentPage)
+
+        const data = await request.get(`https://pokedex-alchemy.herokuapp.com/api/pokedex?page=${this.state.currentPage}&perPage=50`)
+        
+        await this.setState({ 
+            pokemonList: data.body.results,
+            totalPokemon: data.body.count
+
+        })
+        
+    }
+
+    handlePreviousPage =  async () => {//invoked when user clicks previous page button 
+        console.log('YOur doing great!')
+        
+        await this.setState({ 
+            currentPage: this.state.currentPage - 1
+        })
+
+        const data = await request.get(`https://pokedex-alchemy.herokuapp.com/api/pokedex?page=${this.state.currentPage}&perPage=50`)
+
+        await this.setState({ 
+            pokemonList: data.body.results
+        })
+
+
+    }
+
     render() {
+        const lastPage = Math.ceil(this.state.totalPokemon / 50)
         return (
             <div>
                 <div className="search-container">
@@ -110,10 +148,22 @@ class SearchPage extends React.Component {
                         handleChange={this.handleSortByCategory}
                         options={['pokemon','type_1', 'shape', 'ability_1']}
                         />
+
+                    <button 
+                    disabled={this.state.currentPage === 1}
+                    onClick={this.handlePreviousPage}className="page-buttons">Previous Page</button>
+
+                    <button
+                    disabled={this.state.currentPage === lastPage}
+                    onClick={this.handleNextPage}
+                    className="page-buttons">Next Page</button><br/> 
+
+                    <span>Page:{this.state.currentPage} out of 17</span> 
                 </div>
+                
                 < PokemonList 
                     loading={this.state.loading}
-                    filteredPokemons= {this.state.pokemonList}/>
+                    filteredPokemons= {this.state.pokemonList}/>    
             </div>
         )
     }
